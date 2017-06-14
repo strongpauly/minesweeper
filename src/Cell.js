@@ -2,26 +2,32 @@ import React, { Component } from 'react';
 
 class Cell extends Component {
 
-  state = {
-      checked: false
-  }
-
   constructor(props) {
       super(props);
       this.checkCell = this.checkCell.bind(this);
   }
 
-  checkCell() {
-      if (!this.state.checked) {
-          if(this.props.isMine) {
-              this.props.onExplode();
-          }
-          this.setState({checked:true});
+  checkCell(e) {
+      //Can't check more than once.
+      if (!this.props.checked) {
+          this.props.onCheck(this.props.x, this.props.y)
       }
   }
 
   render() {
-      return <td className={ this.state.checked ? "cell checked" : "cell"} onClick={this.checkCell}>&nbsp;</td>
+      let className = ["cell"];
+      if (this.props.checked) {
+          className.push("checked");
+      } else if (this.props.marked) {
+          className.push("marked");
+      }
+      let content = " ";
+      if(this.props.mine) {
+        content = "M";  
+      } else if(this.props.adjacentCount !== undefined) {
+          content = this.props.adjacentCount;
+      }
+      return <td className={ className.join(" ") } onClick={this.checkCell}>{ content }</td>
   }
 }
 
