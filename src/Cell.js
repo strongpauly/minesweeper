@@ -34,7 +34,12 @@ class Cell extends Component {
           content = "F";
       }
       if(this.props.mine) {
-        content = "M";
+          className.push("mine");
+          if(this.props.marked) {
+              content = "X"
+          } else {
+              content = "M";
+          }
       }
       return <td className={ className.join(" ") } onClick={this.checkCell} onContextMenu={this.markCell}>{ content }</td>
   }
