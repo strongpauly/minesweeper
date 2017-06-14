@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import mine from './mine.svg';
 
 class Cell extends Component {
 
@@ -40,7 +41,7 @@ class Cell extends Component {
           if(this.props.marked) {
               content = "X"
           } else {
-              content = "M";
+              content = <img src={mine} className="mineImg" alt="mine" />;
           }
       }
       return <td className={ className.join(" ") } onClick={this.checkCell} onContextMenu={this.markCell}>{ content }</td>
