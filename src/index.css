@@ -93,3 +93,12 @@ body {
 .count-8 {
     color: #F00;
 }
+
+.spinning {
+    animation: icon-spin infinite 20s linear;
+}
+
+@keyframes icon-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}

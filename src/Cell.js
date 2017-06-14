@@ -41,7 +41,7 @@ class Cell extends Component {
           if(this.props.marked) {
               content = "X"
           } else {
-              content = <img src={mine} className="mineImg" alt="mine" />;
+              content = <img src={mine} className="mineImg spinning" alt="mine" />;
           }
       }
       return <td className={ className.join(" ") } onClick={this.checkCell} onContextMenu={this.markCell}>{ content }</td>
