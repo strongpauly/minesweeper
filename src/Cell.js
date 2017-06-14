@@ -5,6 +5,7 @@ class Cell extends Component {
   constructor(props) {
       super(props);
       this.checkCell = this.checkCell.bind(this);
+      this.markCell = this.markCell.bind(this);
   }
 
   checkCell(e) {
@@ -14,20 +15,28 @@ class Cell extends Component {
       }
   }
 
+  markCell(e) {
+      e.preventDefault();
+      this.props.onMark(this.props.x, this.props.y, !this.props.marked);
+  }
+
   render() {
       let className = ["cell"];
+      let content = " ";
       if (this.props.checked) {
           className.push("checked");
+          if (this.props.adjacentCount !== undefined) {
+              content = this.props.adjacentCount;
+              className.push("count-" + this.props.adjacentCount);
+          }
       } else if (this.props.marked) {
           className.push("marked");
+          content = "F";
       }
-      let content = " ";
       if(this.props.mine) {
-        content = "M";  
-      } else if(this.props.adjacentCount !== undefined) {
-          content = this.props.adjacentCount;
+        content = "M";
       }
-      return <td className={ className.join(" ") } onClick={this.checkCell}>{ content }</td>
+      return <td className={ className.join(" ") } onClick={this.checkCell} onContextMenu={this.markCell}>{ content }</td>
   }
 }
 

@@ -30,8 +30,21 @@ body {
 
 .cell.checked {
     background-color: #fff;
+    cursor: default;
 }
 
-.exploded .cell, .exploded .cell.checked{
-    background-color: #f00;
+.exploded .cell{
+    cursor: default;
+}
+
+.count-1 {
+    color: #0f0;
+}
+
+.count-2 {
+    color: #00f;
+}
+
+.count-3 {
+    color: #800;
 }

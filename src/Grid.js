@@ -42,6 +42,7 @@ class Grid extends Component {
           mines: mines
       }
       this.onCheck = this.onCheck.bind(this);
+      this.onMark = this.onMark.bind(this);
   }
 
   /**
@@ -56,30 +57,51 @@ class Grid extends Component {
   }
 
   onCheck(cellX, cellY) {
-      let key = this.getCellKey(cellX, cellY)
-      if(this.state.mines.has(key)) {
-          this.setState({exploded:true});
-      } else {
-          this.state.checked.add(key);
-          this.expand(cellX, cellY);
-          this.setState({checked: this.state.checked});
+      if(!this.state.exploded) {
+          let key = this.getCellKey(cellX, cellY)
+          if(this.state.mines.has(key)) {
+              this.setState({exploded:true});
+          } else {
+              this.state.checked.add(key);
+              this.expand(cellX, cellY);
+              this.setState({checked: this.state.checked});
+          }
       }
   }
+
+  onMark(cellX, cellY, mark) {
+      if(!this.state.exploded) {
+          let key = this.getCellKey(cellX, cellY)
+          if(mark) {
+              this.state.marked.add(key);
+          } else {
+              this.state.marked.delete(key);
+          }
+          this.setState({marked: this.state.marked});
+      }
+  }
+
 
   expand(cellX, cellY) {
       let count = this.state.adjacentCount.get(this.getCellKey(cellX, cellY));
       if (count === undefined) {
-          for (let x = cellX - 1; x <= cellX + 1; x++) {
-              for (let y = cellY - 1; y <= cellY + 1; y++) {
-                  if( (x !== cellX || y !== cellY) && this.validCoord(x, y)) {
-                      let key = this.getCellKey(x, y);
-                      if(!this.state.mines.has(key) && !this.state.checked.has(key)) {
-                          this.state.checked.add(key);
-                          this.expand(x, y);
-                      }
+          let coords = [
+              {x: cellX - 1, y: cellY},
+              {x: cellX + 1, y: cellY},
+              {x: cellX, y: cellY - 1},
+              {x: cellX, y: cellY + 1}
+          ]
+         coords.forEach( coord => {
+             let x = coord.x;
+             let y = coord.y
+             if(this.validCoord(x, y)) {
+                  let key = this.getCellKey(x, y);
+                  if(!this.state.mines.has(key) && !this.state.checked.has(key)) {
+                      this.state.checked.add(key);
+                      this.expand(x, y);
                   }
-              }
-          }
+             }
+          });
       }
   }
 
@@ -90,11 +112,12 @@ class Grid extends Component {
         let row = widthArray.map((emptyX, x) => {
             let key = this.getCellKey(x, y);
             return <Cell key={key} x={x} y={y}
-                mine={this.state.mines.has(key)}
+                mine={this.state.exploded && this.state.mines.has(key)}
                 checked={this.state.checked.has(key)}
                 marked={this.state.marked.has(key)}
                 adjacentCount={this.state.adjacentCount.get(key)}
-                onCheck={this.onCheck}></Cell>
+                onCheck={this.onCheck}
+                onMark={this.onMark}></Cell>
         });
         return <tr className="row" key={'row' + y}>{row}</tr>
     });
