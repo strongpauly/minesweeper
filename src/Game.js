@@ -39,7 +39,8 @@ class Game extends Component {
           checked: new Set(),
           marked: new Set(),
           adjacentCount: adjacentCount,
-          mines: mines
+          mines: mines,
+          completed: false
       }
 
       this.onCheck = this.onCheck.bind(this);
@@ -80,22 +81,26 @@ class Game extends Component {
   }
 
   onCheck(cellX, cellY) {
-      if(!this.state.exploded) {
+      if(!this.state.completed) {
           this.startTimer();
-          let key = this.getCellKey(cellX, cellY)
+          let key = this.getCellKey(cellX, cellY);
           if(this.state.mines.has(key)) {
-              this.setState({exploded:true});
+              this.setState({exploded:true, completed:true});
               this.stopTimer();
           } else {
               this.state.checked.add(key);
               this.expand(cellX, cellY);
+              if(this.hasWon()) {
+                  this.setState({completed:true});
+                  this.stopTimer();
+              }
               this.setState({checked: this.state.checked});
           }
       }
   }
 
   onMark(cellX, cellY, mark) {
-      if(!this.state.exploded) {
+      if(!this.state.completed) {
           this.startTimer();
           let key = this.getCellKey(cellX, cellY)
           if(mark) {
@@ -134,6 +139,11 @@ class Game extends Component {
       this.props.onRestart();
   }
 
+  hasWon() {
+      //Only mines showing.
+      return (this.props.width * this.props.height) - this.state.checked.size === this.props.numMines;
+  }
+
   render() {
     let widthArray = new Array(this.props.width).fill();
     let heightArray = new Array(this.props.height).fill();
@@ -154,10 +164,10 @@ class Game extends Component {
             <div>
                 <div className="header">
                     <div className="numMines">{this.props.numMines - this.state.marked.size}</div>
-                    <div className="status" onClick={this.restart}>{this.state.exploded ? "X" : "OK"}</div>
+                    <div className="status" onClick={this.restart}>{this.state.exploded ? String.fromCharCode(9760) : this.state.completed ? "✔" : String.fromCharCode(9822)}</div>
                     <div className="timer">{this.state.time || " "}</div>
                 </div>
-                <table className={this.state.exploded ? 'grid exploded' : 'grid'}>
+                <table className={this.state.completed ? 'grid completed' : 'grid'}>
                     <tbody>{cells}</tbody>
                 </table>
             </div>

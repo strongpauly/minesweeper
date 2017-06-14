@@ -10,8 +10,8 @@ class Cell extends Component {
   }
 
   checkCell(e) {
-      //Can't check more than once.
-      if (!this.props.checked) {
+      //Can't check more than once - don't allow checking before removing mark.
+      if (!this.props.checked && !this.props.marked) {
           this.props.onCheck(this.props.x, this.props.y)
       }
   }
@@ -34,7 +34,7 @@ class Cell extends Component {
           }
       } else if (this.props.marked) {
           className.push("marked");
-          content = "F";
+          content = "!";
       }
       if(this.props.mine) {
           className.push("mine");

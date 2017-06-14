@@ -21,6 +21,14 @@ body {
     cursor: pointer;
 }
 
+.timer {
+    padding-top:3px;
+}
+
+.numMines {
+    padding-top: 3px;
+}
+
 .grid {
     border-spacing: 0;
     border-collapse: collapse;
@@ -46,7 +54,7 @@ body {
 .mineImg {
 }
 
-.exploded .cell{
+.completed .cell{
     cursor: default;
 }
 
