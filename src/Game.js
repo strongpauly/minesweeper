@@ -119,22 +119,26 @@ class Game extends Component {
   expand(cellX, cellY) {
       let count = this.state.adjacentCount.get(this.getCellKey(cellX, cellY));
       if (count === undefined) {
+          //       x-1 x   x+1
+          // y-1   X   X   X
+          // y     X   O   X
+          // y+1   X   X   X
           [
+              {x: cellX - 1, y: cellY - 1},
               {x: cellX - 1, y: cellY},
+              {x: cellX - 1, y: cellY + 1},
+              {x: cellX,     y: cellY - 1},
+              {x: cellX,     y: cellY + 1},
+              {x: cellX + 1, y: cellY - 1},
               {x: cellX + 1, y: cellY},
-              {x: cellX, y: cellY - 1},
-              {x: cellX, y: cellY + 1}
-          ].forEach( coord => {
-             let x = coord.x;
-             let y = coord.y
-             if(this.validCoord(x, y)) {
-                  let key = this.getCellKey(x, y);
-                  if(!this.state.mines.has(key) && !this.state.checked.has(key)) {
-                      this.state.checked.add(key);
-                      this.state.marked.delete(key);
-                      this.expand(x, y);
-                  }
-             }
+              {x: cellX + 1, y: cellY + 1}
+          ].filter(coord => this.validCoord(coord.x, coord.y)).forEach( coord => {
+              let key = this.getCellKey(coord.x, coord.y);
+              if(!this.state.mines.has(key) && !this.state.checked.has(key)) {
+                  this.state.checked.add(key);
+                  this.state.marked.delete(key);
+                  this.expand(coord.x, coord.y);
+              }
           });
       }
   }
