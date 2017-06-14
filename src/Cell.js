@@ -17,7 +17,9 @@ class Cell extends Component {
 
   markCell(e) {
       e.preventDefault();
-      this.props.onMark(this.props.x, this.props.y, !this.props.marked);
+      if(!this.props.checked) {
+          this.props.onMark(this.props.x, this.props.y, !this.props.marked);
+      }
   }
 
   render() {

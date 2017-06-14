@@ -6,24 +6,34 @@ body {
 
 .gridContainer {
     width: 100%;
-    display :flex;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.header {
+    margin-top: 10px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.status {
+    cursor: pointer;
 }
 
 .grid {
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: 10px;
+    border-spacing: 0;
+    border-collapse: collapse;
 }
 
 .row {
-    display: flex;
 }
 
 .cell {
     border: 1px solid black;
     border-collapse: collapse;
-    width: 15px;
-    height: 15px;
+    width: 18px;
+    height: 18px;
     cursor: pointer;
     background-color: #ccc;
 }
@@ -46,5 +56,25 @@ body {
 }
 
 .count-3 {
-    color: #800;
+    color: #A00;
+}
+
+.count-4 {
+    color: #B00;
+}
+
+.count-5 {
+    color: #C00;
+}
+
+.count-6 {
+    color: #D00;
+}
+
+.count-7 {
+    color: #E00;
+}
+
+.count-8 {
+    color: #F00;
 }

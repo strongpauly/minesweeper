@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Cell from './Cell';
 
-class Grid extends Component {
+class Game extends Component {
 
   constructor(props) {
       super(props);
@@ -41,8 +41,10 @@ class Grid extends Component {
           adjacentCount: adjacentCount,
           mines: mines
       }
+
       this.onCheck = this.onCheck.bind(this);
       this.onMark = this.onMark.bind(this);
+      this.restart = this.restart.bind(this);
   }
 
   /**
@@ -56,11 +58,34 @@ class Grid extends Component {
       return x + ',' + y;
   }
 
+  startTimer() {
+      if(!this.timerId) {
+          this.setState({time: 1});
+          this.timerId = setInterval(() => {
+              this.setState((previousState) => ({
+                  time:previousState.time + 1
+              }));
+          }, 1000);
+      }
+  }
+
+  stopTimer() {
+      if(this.timerId) {
+        clearInterval(this.timerId);
+      }
+  }
+
+  componentWillUnmount() {
+      this.stopTimer();
+  }
+
   onCheck(cellX, cellY) {
       if(!this.state.exploded) {
+          this.startTimer();
           let key = this.getCellKey(cellX, cellY)
           if(this.state.mines.has(key)) {
               this.setState({exploded:true});
+              this.stopTimer();
           } else {
               this.state.checked.add(key);
               this.expand(cellX, cellY);
@@ -71,6 +96,7 @@ class Grid extends Component {
 
   onMark(cellX, cellY, mark) {
       if(!this.state.exploded) {
+          this.startTimer();
           let key = this.getCellKey(cellX, cellY)
           if(mark) {
               this.state.marked.add(key);
@@ -85,13 +111,12 @@ class Grid extends Component {
   expand(cellX, cellY) {
       let count = this.state.adjacentCount.get(this.getCellKey(cellX, cellY));
       if (count === undefined) {
-          let coords = [
+          [
               {x: cellX - 1, y: cellY},
               {x: cellX + 1, y: cellY},
               {x: cellX, y: cellY - 1},
               {x: cellX, y: cellY + 1}
-          ]
-         coords.forEach( coord => {
+          ].forEach( coord => {
              let x = coord.x;
              let y = coord.y
              if(this.validCoord(x, y)) {
@@ -103,6 +128,10 @@ class Grid extends Component {
              }
           });
       }
+  }
+
+  restart() {
+      this.props.onRestart();
   }
 
   render() {
@@ -121,8 +150,19 @@ class Grid extends Component {
         });
         return <tr className="row" key={'row' + y}>{row}</tr>
     });
-    return <table className={this.state.exploded ? 'grid exploded' : 'grid'}><tbody>{cells}</tbody></table>
+    return <div className="gridContainer">
+            <div>
+                <div className="header">
+                    <div className="numMines">{this.props.numMines - this.state.marked.size}</div>
+                    <div className="status" onClick={this.restart}>{this.state.exploded ? "X" : "OK"}</div>
+                    <div className="timer">{this.state.time || " "}</div>
+                </div>
+                <table className={this.state.exploded ? 'grid exploded' : 'grid'}>
+                    <tbody>{cells}</tbody>
+                </table>
+            </div>
+        </div>;
   }
 }
 
-export default Grid;
+export default Game;
