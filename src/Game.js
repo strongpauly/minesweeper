@@ -89,12 +89,16 @@ class Game extends Component {
               this.stopTimer();
           } else {
               this.state.checked.add(key);
+              this.state.marked.delete(key);
               this.expand(cellX, cellY);
               if(this.hasWon()) {
                   this.setState({completed:true});
                   this.stopTimer();
               }
-              this.setState({checked: this.state.checked});
+              this.setState({
+                  checked: this.state.checked,
+                  marked: this.state.marked
+              });
           }
       }
   }
@@ -112,7 +116,6 @@ class Game extends Component {
       }
   }
 
-
   expand(cellX, cellY) {
       let count = this.state.adjacentCount.get(this.getCellKey(cellX, cellY));
       if (count === undefined) {
@@ -128,6 +131,7 @@ class Game extends Component {
                   let key = this.getCellKey(x, y);
                   if(!this.state.mines.has(key) && !this.state.checked.has(key)) {
                       this.state.checked.add(key);
+                      this.state.marked.delete(key);
                       this.expand(x, y);
                   }
              }

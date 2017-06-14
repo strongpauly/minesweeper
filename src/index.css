@@ -19,14 +19,17 @@ body {
 
 .status {
     cursor: pointer;
+    flex-grow: 3;
 }
 
 .timer {
     padding-top:3px;
+    min-width: 2em;
 }
 
 .numMines {
     padding-top: 3px;
+    min-width: 2em;
 }
 
 .grid {
