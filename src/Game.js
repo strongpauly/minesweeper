@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Cell from './Cell';
+import Set from 'betterset';
 
 class Game extends Component {
 
@@ -59,6 +60,11 @@ class Game extends Component {
       return x + ',' + y;
   }
 
+  getCellCoord(key) {
+      let split = key.split(',');
+      return {x:parseInt(split[0], 10), y: parseInt(split[1], 10)};
+  }
+
   startTimer() {
       if(!this.timerId) {
           this.setState({time: 1});
@@ -88,9 +94,7 @@ class Game extends Component {
               this.setState({exploded:true, completed:true});
               this.stopTimer();
           } else {
-              this.state.checked.add(key);
-              this.state.marked.delete(key);
-              this.expand(cellX, cellY);
+              this.doCheck(key);
               if(this.hasWon()) {
                   this.setState({completed:true});
                   this.stopTimer();
@@ -116,30 +120,41 @@ class Game extends Component {
       }
   }
 
-  expand(cellX, cellY) {
-      let count = this.state.adjacentCount.get(this.getCellKey(cellX, cellY));
-      if (count === undefined) {
-          //       x-1 x   x+1
-          // y-1   X   X   X
-          // y     X   O   X
-          // y+1   X   X   X
-          [
-              {x: cellX - 1, y: cellY - 1},
-              {x: cellX - 1, y: cellY},
-              {x: cellX - 1, y: cellY + 1},
-              {x: cellX,     y: cellY - 1},
-              {x: cellX,     y: cellY + 1},
-              {x: cellX + 1, y: cellY - 1},
-              {x: cellX + 1, y: cellY},
-              {x: cellX + 1, y: cellY + 1}
-          ].filter(coord => this.validCoord(coord.x, coord.y)).forEach( coord => {
-              let key = this.getCellKey(coord.x, coord.y);
-              if(!this.state.mines.has(key) && !this.state.checked.has(key)) {
-                  this.state.checked.add(key);
-                  this.state.marked.delete(key);
-                  this.expand(coord.x, coord.y);
+  doCheck(cellKey) {
+      let checking = new Set([cellKey]);
+      while (checking.size > 0) {
+          let key = checking[Symbol.iterator]().next().value;
+          checking.delete(key);
+          //May have already been checked in this iteration.
+          if(!this.state.checked.has(key)) {
+              this.state.checked.add(key);
+              //Stop when we get close to a mine.
+              if(!this.state.adjacentCount.has(key)) {
+                  let coord = this.getCellCoord(key);
+                  checking.addAll(
+                      //       x-1 x   x+1
+                      // y-1   X   X   X
+                      // y     X   O   X
+                      // y+1   X   X   X
+                      [
+                          {x: coord.x - 1, y: coord.y - 1},
+                          {x: coord.x - 1, y: coord.y},
+                          {x: coord.x - 1, y: coord.y + 1},
+                          {x: coord.x,     y: coord.y - 1},
+                          {x: coord.x,     y: coord.y + 1},
+                          {x: coord.x + 1, y: coord.y - 1},
+                          {x: coord.x + 1, y: coord.y},
+                          {x: coord.x + 1, y: coord.y + 1}
+                      ].filter(newCoord => {
+                          let newKey = this.getCellKey(newCoord.x, newCoord.y);
+                          return this.validCoord(newCoord.x, newCoord.y) &&
+                            !this.state.mines.has(newKey) &&
+                            !this.state.checked.has(newKey) &&
+                            !this.state.marked.has(newKey);
+                      }).map(newCoord => this.getCellKey(newCoord.x, newCoord.y))
+                  );
               }
-          });
+          }
       }
   }
 
