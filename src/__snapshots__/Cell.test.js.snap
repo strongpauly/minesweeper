@@ -1,0 +1,11 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Cell has not changed 1`] = `
+<td
+  className="cell"
+  onClick={[Function]}
+  onContextMenu={[Function]}
+>
+   
+</td>
+`;

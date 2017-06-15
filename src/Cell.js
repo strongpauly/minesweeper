@@ -9,8 +9,8 @@ class Cell extends Component {
     marked: PropTypes.bool,
     onCheck: PropTypes.func,
     onMark:  PropTypes.func,
-    x: PropTypes.number,
-    y: PropTypes.number,
+    x: PropTypes.number.isRequired,
+    y: PropTypes.number.isRequired,
     adjacentCount: PropTypes.number,
     mine: PropTypes.bool
   }
