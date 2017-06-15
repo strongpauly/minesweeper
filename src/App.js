@@ -7,18 +7,18 @@ import Game from './Game';
 class App extends Component {
 
   constructor(props) {
-      super(props);
-      this.restart = this.restart.bind(this);
-      this.state = {
-          width: 20,
-          height: 20,
-          numMines: 30,
-          gameId: 0
-      };
+    super(props);
+    this.restart = this.restart.bind(this);
+    this.state = {
+      width: 20,
+      height: 20,
+      numMines: 30,
+      gameId: 0
+    };
   }
 
   restart() {
-      this.setState({gameId: this.state.gameId + 1});
+    this.setState({gameId: this.state.gameId + 1});
   }
 
   render() {
