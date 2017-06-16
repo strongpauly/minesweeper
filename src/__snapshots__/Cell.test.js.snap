@@ -1,11 +1,59 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Cell has not changed 1`] = `
+exports[`Cell has "cell" css class 1`] = `
 <td
   className="cell"
   onClick={[Function]}
   onContextMenu={[Function]}
 >
    
+</td>
+`;
+
+exports[`Cell initialised with checked has "checked" class 1`] = `
+<td
+  className="cell checked"
+  onClick={[Function]}
+  onContextMenu={[Function]}
+>
+   
+</td>
+`;
+
+exports[`Cell initialised with marked has "marked" class 1`] = `
+<td
+  className="cell marked"
+  onClick={[Function]}
+  onContextMenu={[Function]}
+>
+  !
+</td>
+`;
+
+exports[`Cell initialised with mine has "mine" class 1`] = `
+<td
+  className="cell mine"
+  onClick={[Function]}
+  onContextMenu={[Function]}
+>
+  <img
+    alt="mine"
+    className="mineImg spinning"
+    src="mine.svg"
+  />
+</td>
+`;
+
+exports[`Cell initialised with mine shows mine img 1`] = `
+<td
+  className="cell mine"
+  onClick={[Function]}
+  onContextMenu={[Function]}
+>
+  <img
+    alt="mine"
+    className="mineImg spinning"
+    src="mine.svg"
+  />
 </td>
 `;
