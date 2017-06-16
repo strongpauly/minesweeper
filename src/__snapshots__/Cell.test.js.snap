@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Cell has "cell" css class 1`] = `
+exports[`<Cell> has "cell" css class 1`] = `
 <td
   className="cell"
   onClick={[Function]}
@@ -10,7 +10,7 @@ exports[`Cell has "cell" css class 1`] = `
 </td>
 `;
 
-exports[`Cell initialised with checked has "checked" class 1`] = `
+exports[`<Cell> initialised with checked has "checked" class 1`] = `
 <td
   className="cell checked"
   onClick={[Function]}
@@ -20,7 +20,7 @@ exports[`Cell initialised with checked has "checked" class 1`] = `
 </td>
 `;
 
-exports[`Cell initialised with marked has "marked" class 1`] = `
+exports[`<Cell> initialised with marked has "marked" class 1`] = `
 <td
   className="cell marked"
   onClick={[Function]}
@@ -30,7 +30,7 @@ exports[`Cell initialised with marked has "marked" class 1`] = `
 </td>
 `;
 
-exports[`Cell initialised with mine has "mine" class 1`] = `
+exports[`<Cell> initialised with mine has "mine" class 1`] = `
 <td
   className="cell mine"
   onClick={[Function]}
@@ -44,7 +44,7 @@ exports[`Cell initialised with mine has "mine" class 1`] = `
 </td>
 `;
 
-exports[`Cell initialised with mine shows mine img 1`] = `
+exports[`<Cell> initialised with mine shows mine img 1`] = `
 <td
   className="cell mine"
   onClick={[Function]}

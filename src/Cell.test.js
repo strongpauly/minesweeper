@@ -5,7 +5,7 @@ import sinon from 'sinon';
 
 /* eslint-env jest */
 
-describe('Cell', () => {
+describe('<Cell>', () => {
 
   it('renders without crashing', () => {
     shallow(<Cell x={0} y={0}/>);
