@@ -39,6 +39,7 @@ describe('<Cell>', () => {
     const cell = shallow(<Cell x={0} y={0} marked={true}/>);
     expect(cell).toMatchSnapshot();
     expect(cell.find('.marked')).toHaveLength(1);
+    expect(cell.find('td').text()).toEqual('!');
   });
 
   it('with a marked mine show an X', () => {
@@ -85,7 +86,7 @@ describe('<Cell>', () => {
   });
 
   it('click won\'t fire onMark if checked is true', () => {
-     const onMark = sinon.spy();
+    const onMark = sinon.spy();
     let table = mount(<table><tbody><tr><Cell x={0} y={0} onMark={onMark} checked={true}/></tr></tbody></table>);
     table.find('td').simulate('contextMenu');
     expect(onMark.calledOnce).toEqual(false);

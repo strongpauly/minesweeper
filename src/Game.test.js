@@ -1,11 +1,12 @@
 import React from 'react';
 import Game from './Game';
-import {shallow} from 'enzyme';
+import {shallow, mount} from 'enzyme';
+import sinon from 'sinon';
 
 /* eslint-env jest */
 
 describe('<Game>', () => {
-
+  jest.useFakeTimers();
   it('renders without crashing', () => {
     shallow(<Game width={10} height={10} numMines={10}/>);
   });
@@ -33,8 +34,53 @@ describe('<Game>', () => {
   it('has completed class when game is won', () => {
     const game = shallow(<Game width={1} height={1} numMines={1}/>);
     expect(game).toMatchSnapshot();
-    const numMines = game.find('.completed');
+    const completed = game.find('.completed');
+    expect(completed).toHaveLength(1);
+  });
+
+  it('will expand or explode a large grid with only one mine', () => {
+     const game = mount(<Game width={30} height={30} numMines={1}/>);
+     game.find('Cell td').at(0).simulate('click');
+     expect(game.find('.completed')).toHaveLength(1);
+  });
+
+  it('will call restart handler when status button is clicked', () => {
+    const onRestart = sinon.spy();
+    const game = mount(<Game width={30} height={30} numMines={1} onRestart={onRestart}/>);
+    game.find('.status').simulate('click');
+    expect(onRestart.calledOnce).toEqual(true);
+  });
+
+  it('will update mine count to match number marked', () => {
+    const game = mount(<Game width={30} height={30} numMines={4}/>);
+    const numMines = game.find('.header .numMines');
     expect(numMines).toHaveLength(1);
+    expect(numMines.text()).toEqual('4');
+    game.find('Cell td').at(0).simulate('contextMenu');
+    expect(numMines.text()).toEqual('3');
+    game.find('Cell td').at(0).simulate('contextMenu');
+    expect(numMines.text()).toEqual('4');
+  });
+  
+  it('will update timer after game starts', () => {
+    const game = mount(<Game width={3} height={3} numMines={2}/>);
+    const timer = game.find('.header .timer');
+    expect(timer).toHaveLength(1);
+    expect(timer.text()).toEqual(" ");
+    game.find('Cell td').at(0).simulate('contextMenu');
+    expect(timer.text()).toEqual("1");
+    jest.runTimersToTime(1000); 
+    expect(timer.text()).toEqual("2");
+  });
+
+  it('wont update timer after game completed', () => {
+    const game = mount(<Game width={1} height={1} numMines={1}/>);
+    const timer = game.find('.header .timer');
+    expect(timer.text()).toEqual(" ");
+    game.find('Cell td').at(0).simulate('contextMenu');
+    expect(timer.text()).toEqual(" ");
+    jest.runTimersToTime(1000); 
+    expect(timer.text()).toEqual(" ");
   });
 
 });

@@ -131,6 +131,7 @@ class Game extends Component {
   doCheck(cellKey) {
     let checking = new Set([cellKey]);
     while (checking.size > 0) {
+      //Effectively checking.pop();
       let key = checking[Symbol.iterator]().next().value;
       checking.delete(key);
       //May have already been checked in this iteration.
