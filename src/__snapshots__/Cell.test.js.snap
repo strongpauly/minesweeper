@@ -10,6 +10,16 @@ exports[`<Cell> has "cell" css class 1`] = `
 </td>
 `;
 
+exports[`<Cell> initialised with an adjacent count, renders that count with "count-" class 1`] = `
+<td
+  className="cell checked count-1"
+  onClick={[Function]}
+  onContextMenu={[Function]}
+>
+  1
+</td>
+`;
+
 exports[`<Cell> initialised with checked has "checked" class 1`] = `
 <td
   className="cell checked"
@@ -55,5 +65,15 @@ exports[`<Cell> initialised with mine shows mine img 1`] = `
     className="mineImg spinning"
     src="mine.svg"
   />
+</td>
+`;
+
+exports[`<Cell> with a marked mine show an X 1`] = `
+<td
+  className="cell marked mine"
+  onClick={[Function]}
+  onContextMenu={[Function]}
+>
+  X
 </td>
 `;
