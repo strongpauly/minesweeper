@@ -10,9 +10,9 @@ class App extends Component {
     super(props);
     this.restart = this.restart.bind(this);
     this.state = {
-      width: 20,
-      height: 20,
-      numMines: 30,
+      width: props.width || 20,
+      height: props.height || 20,
+      numMines: props.numMines !== undefined ? props.numMines : 30,
       gameId: 0
     };
   }
