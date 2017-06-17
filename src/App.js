@@ -29,6 +29,7 @@ class App extends Component {
           <h2>Minesweeper!</h2>
         </div>
         <Game key={this.state.gameId}
+            gameId={this.state.gameId}
             width={this.state.width}
             height={this.state.height}
             numMines={this.state.numMines}
