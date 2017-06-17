@@ -11,7 +11,7 @@ exports[`<Game> creates grid based on width and height 1`] = `
       <div
         className="numMines"
       >
-        2
+        0
       </div>
       <div
         className="status"
@@ -33,7 +33,6 @@ exports[`<Game> creates grid based on width and height 1`] = `
           className="row"
         >
           <Cell
-            adjacentCount={1}
             checked={false}
             marked={false}
             mine={false}
@@ -43,7 +42,6 @@ exports[`<Game> creates grid based on width and height 1`] = `
             y={0}
           />
           <Cell
-            adjacentCount={2}
             checked={false}
             marked={false}
             mine={false}
@@ -57,7 +55,6 @@ exports[`<Game> creates grid based on width and height 1`] = `
           className="row"
         >
           <Cell
-            adjacentCount={2}
             checked={false}
             marked={false}
             mine={false}
@@ -67,7 +64,6 @@ exports[`<Game> creates grid based on width and height 1`] = `
             y={1}
           />
           <Cell
-            adjacentCount={1}
             checked={false}
             marked={false}
             mine={false}
@@ -75,6 +71,54 @@ exports[`<Game> creates grid based on width and height 1`] = `
             onMark={[Function]}
             x={1}
             y={1}
+          />
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+`;
+
+exports[`<Game> has completed class when game is won 1`] = `
+<div
+  className="gridContainer"
+>
+  <div>
+    <div
+      className="header"
+    >
+      <div
+        className="numMines"
+      >
+        1
+      </div>
+      <div
+        className="status"
+        onClick={[Function]}
+      >
+        ✔
+      </div>
+      <div
+        className="timer"
+      >
+         
+      </div>
+    </div>
+    <table
+      className="grid completed"
+    >
+      <tbody>
+        <tr
+          className="row"
+        >
+          <Cell
+            checked={false}
+            marked={false}
+            mine={false}
+            onCheck={[Function]}
+            onMark={[Function]}
+            x={0}
+            y={0}
           />
         </tr>
       </tbody>
@@ -100,7 +144,7 @@ exports[`<Game> has header 1`] = `
         className="status"
         onClick={[Function]}
       >
-        ♞
+        ✔
       </div>
       <div
         className="timer"
@@ -109,71 +153,9 @@ exports[`<Game> has header 1`] = `
       </div>
     </div>
     <table
-      className="grid"
+      className="grid completed"
     >
       <tbody />
-    </table>
-  </div>
-</div>
-`;
-
-exports[`<Game> shows number of mines in header 1`] = `
-<div
-  className="gridContainer"
->
-  <div>
-    <div
-      className="header"
-    >
-      <div
-        className="numMines"
-      >
-        1
-      </div>
-      <div
-        className="status"
-        onClick={[Function]}
-      >
-        ♞
-      </div>
-      <div
-        className="timer"
-      >
-         
-      </div>
-    </div>
-    <table
-      className="grid"
-    >
-      <tbody>
-        <tr
-          className="row"
-        >
-          <Cell
-            checked={false}
-            marked={false}
-            mine={false}
-            onCheck={[Function]}
-            onMark={[Function]}
-            x={0}
-            y={0}
-          />
-        </tr>
-        <tr
-          className="row"
-        >
-          <Cell
-            adjacentCount={1}
-            checked={false}
-            marked={false}
-            mine={false}
-            onCheck={[Function]}
-            onMark={[Function]}
-            x={0}
-            y={1}
-          />
-        </tr>
-      </tbody>
     </table>
   </div>
 </div>

@@ -49,7 +49,7 @@ class Game extends Component {
       marked: new Set(),
       adjacentCount: adjacentCount,
       mines: mines,
-      completed: false
+      completed: props.width * props.height === props.numMines
     };
 
     this.onCheck = this.onCheck.bind(this);
@@ -171,7 +171,7 @@ class Game extends Component {
   }
 
   hasWon() {
-      //Only mines showing.
+    //Only mines showing.
     return (this.props.width * this.props.height) - this.state.checked.size === this.props.numMines;
   }
 

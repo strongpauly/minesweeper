@@ -23,5 +23,10 @@
     "snapshotSerializers": [
       "<rootDir>/node_modules/enzyme-to-json/serializer"
     ]
-  }
+  }, 
+  "activationEvents": [
+    "workspaceContains:node_modules/.bin/jest",
+    "workspaceContains:node_modules/react-scripts/node_modules/.bin/jest",
+    "onCommand:io.orta.jest.start"
+  ]
 }

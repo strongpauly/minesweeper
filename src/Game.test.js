@@ -11,23 +11,30 @@ describe('<Game>', () => {
   });
 
   it('has header', () => {
-    const cell = shallow(<Game width={0} height={0} numMines={0}/>);
-    expect(cell).toMatchSnapshot();
-    expect(cell.find('.header')).toHaveLength(1);
+    const game = shallow(<Game width={0} height={0} numMines={0}/>);
+    expect(game).toMatchSnapshot();
+    expect(game.find('.header')).toHaveLength(1);
   });
 
   it('creates grid based on width and height', () => {
-    const cell = shallow(<Game width={2} height={2} numMines={2}/>);
-    expect(cell).toMatchSnapshot();
-    expect(cell.find('tr')).toHaveLength(2); //Height 2.
-    expect(cell.find('Cell')).toHaveLength(4); //Height 2 X Width 2.
+    const game = shallow(<Game width={2} height={2} numMines={0}/>);
+    expect(game).toMatchSnapshot();
+    expect(game.find('tr')).toHaveLength(2); //Height 2.
+    expect(game.find('Cell')).toHaveLength(4); //Height 2 x Width 2.
   });
 
   it('shows number of mines in header', () => {
-    const cell = shallow(<Game width={1} height={2} numMines={1}/>);
-    expect(cell).toMatchSnapshot();
-    const numMines = cell.find('.header .numMines');
+    const game = shallow(<Game width={1} height={2} numMines={1}/>);
+    const numMines = game.find('.header .numMines');
     expect(numMines).toHaveLength(1);
     expect(numMines.text()).toEqual('1');
   });
+
+  it('has completed class when game is won', () => {
+    const game = shallow(<Game width={1} height={1} numMines={1}/>);
+    expect(game).toMatchSnapshot();
+    const numMines = game.find('.completed');
+    expect(numMines).toHaveLength(1);
+  });
+
 });
