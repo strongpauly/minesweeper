@@ -39,9 +39,9 @@ describe('<Game>', () => {
   });
 
   it('will expand or explode a large grid with only one mine', () => {
-     const game = mount(<Game width={30} height={30} numMines={1}/>);
-     game.find('Cell td').at(0).simulate('click');
-     expect(game.find('.completed')).toHaveLength(1);
+    const game = mount(<Game width={30} height={30} numMines={1}/>);
+    game.find('Cell td').at(0).simulate('click');
+    expect(game.find('.completed')).toHaveLength(1);
   });
 
   it('will call restart handler when status button is clicked', () => {
@@ -61,26 +61,26 @@ describe('<Game>', () => {
     game.find('Cell td').at(0).simulate('contextMenu');
     expect(numMines.text()).toEqual('4');
   });
-  
+
   it('will update timer after game starts', () => {
     const game = mount(<Game width={3} height={3} numMines={2}/>);
     const timer = game.find('.header .timer');
     expect(timer).toHaveLength(1);
-    expect(timer.text()).toEqual(" ");
+    expect(timer.text()).toEqual(' ');
     game.find('Cell td').at(0).simulate('contextMenu');
-    expect(timer.text()).toEqual("1");
-    jest.runTimersToTime(1000); 
-    expect(timer.text()).toEqual("2");
+    expect(timer.text()).toEqual('1');
+    jest.runTimersToTime(1000);
+    expect(timer.text()).toEqual('2');
   });
 
   it('wont update timer after game completed', () => {
     const game = mount(<Game width={1} height={1} numMines={1}/>);
     const timer = game.find('.header .timer');
-    expect(timer.text()).toEqual(" ");
+    expect(timer.text()).toEqual(' ');
     game.find('Cell td').at(0).simulate('contextMenu');
-    expect(timer.text()).toEqual(" ");
-    jest.runTimersToTime(1000); 
-    expect(timer.text()).toEqual(" ");
+    expect(timer.text()).toEqual(' ');
+    jest.runTimersToTime(1000);
+    expect(timer.text()).toEqual(' ');
   });
 
 });

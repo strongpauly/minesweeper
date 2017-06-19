@@ -3,8 +3,15 @@ import logo from './logo.svg';
 import './App.css';
 
 import Game from './Game';
+import propTypes from 'prop-types';
 
 class App extends Component {
+
+  static propTypes = {
+    width: propTypes.number,
+    height: propTypes.number,
+    numMines: propTypes.number
+  }
 
   constructor(props) {
     super(props);
