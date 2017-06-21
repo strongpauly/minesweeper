@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import mine from './mine.svg';
 import PropTypes from 'prop-types';
 
-class Cell extends Component {
+export default class Cell extends Component {
 
   static propTypes = {
     checked: PropTypes.bool,
@@ -59,5 +59,3 @@ class Cell extends Component {
     return <td className={ className.join(' ') } onClick={this.checkCell} onContextMenu={this.markCell}>{ content }</td>;
   }
 }
-
-export default Cell;

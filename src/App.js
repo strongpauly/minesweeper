@@ -5,7 +5,7 @@ import './App.css';
 import Game from './Game';
 import propTypes from 'prop-types';
 
-class App extends Component {
+export default class App extends Component {
 
   static propTypes = {
     width: propTypes.number,
@@ -45,5 +45,3 @@ class App extends Component {
     );
   }
 }
-
-export default App;

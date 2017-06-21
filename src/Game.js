@@ -3,7 +3,7 @@ import Cell from './Cell';
 import Set from 'betterset';
 import PropTypes from 'prop-types';
 
-class Game extends Component {
+export default class Game extends Component {
 
   static propTypes = {
     numMines: PropTypes.number,
@@ -206,5 +206,3 @@ class Game extends Component {
         </div>;
   }
 }
-
-export default Game;
