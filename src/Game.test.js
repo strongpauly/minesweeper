@@ -4,6 +4,7 @@ import {shallow, mount} from 'enzyme';
 import sinon from 'sinon';
 
 import generateMines from './lib/generateMines';
+import getCellKey from './lib/getCellKey';
 
 /* eslint-env jest */
 
@@ -40,10 +41,37 @@ describe('<Game>', () => {
     expect(completed).toHaveLength(1);
   });
 
-  it('will expand or explode a large grid with only one mine', () => {
-    const game = mount(<Game mines={generateMines(1, 30, 30)}/>);
+  function placeMines(width, height, theMines) {
+    let mines = new Map();
+    theMines.forEach( coord => {
+      mines.set(getCellKey(coord.x, coord.y), coord);
+    });
+    return {
+      width,
+      height,
+      mines
+    };
+  }
+
+  it('will win loose game if mine is clicked', () => {
+    const game = mount(<Game mines={placeMines(2, 1, [{x:1, y:0}])}/>);
+    game.find('Cell td').at(1).simulate('click');
+    expect(game.state('completed')).toEqual(true);
+    expect(game.state('exploded')).toEqual(true);
+  });
+
+  it('will win game if empty cell is clicked', () => {
+    const game = mount(<Game mines={placeMines(2, 1, [{x:1, y:0}])}/>);
     game.find('Cell td').at(0).simulate('click');
-    expect(game.find('.completed')).toHaveLength(1);
+    expect(game.state('completed')).toEqual(true);
+    expect(game.state('exploded')).toEqual(false);
+  });
+
+  it('will expand to win game if empty cell is clicked', () => {
+    const game = mount(<Game mines={placeMines(30, 30, [{x:15, y:15}])}/>);
+    game.find('Cell td').at(0).simulate('click');
+    expect(game.state('completed')).toEqual(true);
+    expect(game.state('exploded')).toEqual(false);
   });
 
   it('will call restart handler when status button is clicked', () => {
