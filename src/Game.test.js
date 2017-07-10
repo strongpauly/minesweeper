@@ -53,7 +53,7 @@ describe('<Game>', () => {
     };
   }
 
-  it('will win loose game if mine is clicked', () => {
+  it('will loose game if mine is clicked', () => {
     const game = mount(<Game mines={placeMines(2, 1, [{x:1, y:0}])}/>);
     game.find('Cell td').at(1).simulate('click');
     expect(game.state('completed')).toEqual(true);
@@ -71,6 +71,15 @@ describe('<Game>', () => {
     const game = mount(<Game mines={placeMines(30, 30, [{x:15, y:15}])}/>);
     game.find('Cell td').at(0).simulate('click');
     expect(game.state('completed')).toEqual(true);
+    expect(game.state('exploded')).toEqual(false);
+  });
+
+  it('won\'t expand to win game if click adjacent to mine', () => {
+    const game = mount(<Game mines={placeMines(2, 2, [{x:1, y:0}])}/>);
+    let adjacent = game.find('Cell td').at(0);
+    adjacent.simulate('click');
+    expect(adjacent.text()).toEqual('1'); //Should have 1 mine nearby. 
+    expect(game.state('completed')).toEqual(false);
     expect(game.state('exploded')).toEqual(false);
   });
 
