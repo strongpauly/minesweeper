@@ -3,36 +3,24 @@ import Cell from './Cell';
 import Set from 'betterset';
 import PropTypes from 'prop-types';
 
+import getCellKey from './lib/getCellKey';
+
 export default class Game extends Component {
 
   static propTypes = {
-    numMines: PropTypes.number,
-    width: PropTypes.number,
-    height: PropTypes.number,
-    onRestart: PropTypes.func
+    onRestart: PropTypes.func,
+    mines: PropTypes.object
   }
 
   constructor(props) {
     super(props);
-    let mines = new Map();
+    let mines = props.mines.mines;
     let adjacentCount = new Map();
-    for (let mineNumber = 0; mineNumber < props.numMines; mineNumber ++) {
-      let setMine = false;
-      while(!setMine) {
-        let x = Math.round(Math.random() * (props.width - 1));
-        let y = Math.round(Math.random() * (props.height - 1));
-        let key = this.getCellKey(x, y);
-        if(!mines.has(key)) {
-          mines.set(key, {x: x, y:y});
-          setMine = true;
-        }
-      }
-    }
     mines.forEach(mine => {
       for (let x = mine.x - 1; x <= mine.x + 1; x++) {
         for (let y = mine.y - 1; y <= mine.y + 1; y++) {
           if( (x !== mine.x || y !== mine.y) && this.validCoord(x, y)) {
-            let key = this.getCellKey(x, y);
+            let key = getCellKey(x, y);
             let count = adjacentCount.get(key);
             if (count === undefined) {
               count = 0;
@@ -49,7 +37,7 @@ export default class Game extends Component {
       marked: new Set(),
       adjacentCount: adjacentCount,
       mines: mines,
-      completed: props.width * props.height === props.numMines
+      completed: props.mines.width * props.mines.height === mines.size
     };
 
     this.onCheck = this.onCheck.bind(this);
@@ -61,11 +49,7 @@ export default class Game extends Component {
    * Helper function to determine whether a coordinate appears inside the bounds of the grid.
    */
   validCoord(x, y) {
-    return x >= 0 && y >= 0 && x < this.props.width && y < this.props.height;
-  }
-
-  getCellKey(x, y) {
-    return x + ',' + y;
+    return x >= 0 && y >= 0 && x < this.props.mines.width && y < this.props.mines.height;
   }
 
   getCellCoord(key) {
@@ -87,6 +71,7 @@ export default class Game extends Component {
   stopTimer() {
     if(this.timerId) {
       clearInterval(this.timerId);
+      delete this.timerId;
     }
   }
 
@@ -97,7 +82,7 @@ export default class Game extends Component {
   onCheck(cellX, cellY) {
     if(!this.state.completed) {
       this.startTimer();
-      let key = this.getCellKey(cellX, cellY);
+      let key = getCellKey(cellX, cellY);
       if(this.state.mines.has(key)) {
         this.setState({exploded:true, completed:true});
         this.stopTimer();
@@ -118,7 +103,7 @@ export default class Game extends Component {
   onMark(cellX, cellY, mark) {
     if(!this.state.completed) {
       this.startTimer();
-      let key = this.getCellKey(cellX, cellY);
+      let key = getCellKey(cellX, cellY);
       if(mark) {
         this.state.marked.add(key);
       } else {
@@ -155,12 +140,12 @@ export default class Game extends Component {
                   {x: coord.x + 1, y: coord.y},
                   {x: coord.x + 1, y: coord.y + 1}
               ].filter(newCoord => {
-                let newKey = this.getCellKey(newCoord.x, newCoord.y);
+                let newKey = getCellKey(newCoord.x, newCoord.y);
                 return this.validCoord(newCoord.x, newCoord.y) &&
                   !this.state.mines.has(newKey) &&
                   !this.state.checked.has(newKey) &&
                   !this.state.marked.has(newKey);
-              }).map(newCoord => this.getCellKey(newCoord.x, newCoord.y))
+              }).map(newCoord => getCellKey(newCoord.x, newCoord.y))
           );
         }
       }
@@ -173,15 +158,15 @@ export default class Game extends Component {
 
   hasWon() {
     //Only mines showing.
-    return (this.props.width * this.props.height) - this.state.checked.size === this.props.numMines;
+    return (this.props.mines.width * this.props.mines.height) - this.state.checked.size === this.props.mines.mines.size;
   }
 
   render() {
-    let widthArray = new Array(this.props.width).fill();
-    let heightArray = new Array(this.props.height).fill();
+    let widthArray = new Array(this.props.mines.width).fill();
+    let heightArray = new Array(this.props.mines.height).fill();
     let cells = heightArray.map((emptyY, y) => {
       let row = widthArray.map((emptyX, x) => {
-        let key = this.getCellKey(x, y);
+        let key = getCellKey(x, y);
         return <Cell key={key} x={x} y={y}
             mine={this.state.exploded && this.state.mines.has(key)}
             checked={this.state.checked.has(key)}
@@ -195,7 +180,7 @@ export default class Game extends Component {
     return <div className="gridContainer">
             <div>
                 <div className="header">
-                    <div className="numMines">{this.props.numMines - this.state.marked.size}</div>
+                    <div className="numMines">{this.props.mines.mines.size - this.state.marked.size}</div>
                     <div className="status" onClick={this.restart}>{this.state.exploded ? String.fromCharCode(9760) : this.state.completed ? '✔' : String.fromCharCode(9822)}</div>
                     <div className="timer">{this.state.time || ' '}</div>
                 </div>

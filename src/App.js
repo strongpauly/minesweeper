@@ -4,6 +4,7 @@ import './App.css';
 
 import Game from './Game';
 import propTypes from 'prop-types';
+import generateMines from './lib/generateMines';
 
 export default class App extends Component {
 
@@ -16,10 +17,14 @@ export default class App extends Component {
   constructor(props) {
     super(props);
     this.restart = this.restart.bind(this);
+    const width = props.width || 20;
+    const height = props.height || 20;
+    const numMines = props.numMines !== undefined ? props.numMines : 30;
     this.state = {
-      width: props.width || 20,
-      height: props.height || 20,
-      numMines: props.numMines !== undefined ? props.numMines : 30,
+      width: width,
+      height: height,
+      numMines: numMines,
+      mines: generateMines(numMines, width, height),
       gameId: 0
     };
   }
@@ -37,9 +42,7 @@ export default class App extends Component {
         </div>
         <Game key={this.state.gameId}
             gameId={this.state.gameId}
-            width={this.state.width}
-            height={this.state.height}
-            numMines={this.state.numMines}
+            mines={this.state.mines}
             onRestart={this.restart}></Game>
       </div>
     );
