@@ -53,18 +53,18 @@ describe('<Game>', () => {
     };
   }
 
-  it('will loose game if mine is clicked', () => {
-    const game = mount(<Game mines={placeMines(2, 1, [{x:1, y:0}])}/>);
-    game.find('Cell td').at(1).simulate('click');
-    expect(game.state('completed')).toEqual(true);
-    expect(game.state('exploded')).toEqual(true);
-  });
-
   it('will win game if empty cell is clicked', () => {
     const game = mount(<Game mines={placeMines(2, 1, [{x:1, y:0}])}/>);
     game.find('Cell td').at(0).simulate('click');
     expect(game.state('completed')).toEqual(true);
     expect(game.state('exploded')).toEqual(false);
+  });
+
+  it('will lose game if mine is clicked', () => {
+    const game = mount(<Game mines={placeMines(2, 1, [{x:1, y:0}])}/>);
+    game.find('Cell td').at(1).simulate('click');
+    expect(game.state('completed')).toEqual(true);
+    expect(game.state('exploded')).toEqual(true);
   });
 
   it('will expand to win game if empty cell is clicked', () => {
@@ -78,7 +78,7 @@ describe('<Game>', () => {
     const game = mount(<Game mines={placeMines(2, 2, [{x:1, y:0}])}/>);
     let adjacent = game.find('Cell td').at(0);
     adjacent.simulate('click');
-    expect(adjacent.text()).toEqual('1'); //Should have 1 mine nearby. 
+    expect(adjacent.text()).toEqual('1'); //Should have 1 mine nearby.
     expect(game.state('completed')).toEqual(false);
     expect(game.state('exploded')).toEqual(false);
   });
@@ -120,6 +120,27 @@ describe('<Game>', () => {
     expect(timer.text()).toEqual(' ');
     jest.runTimersToTime(1000);
     expect(timer.text()).toEqual(' ');
+  });
+
+  it('wont restart timer after game completed', () => {
+    const game = mount(<Game mines={placeMines(2, 2, [{x: 1, y: 1}])}/>);
+    const timer = game.find('.header .timer');
+    expect(timer.text()).toEqual(' ');
+    game.find('Cell td').at(0).simulate('contextMenu');
+    expect(timer.text()).toEqual('1');
+    jest.runTimersToTime(1000);
+    expect(timer.text()).toEqual('2');
+    //Lose game
+    game.find('Cell td').at(3).simulate('click');
+    expect(game.state('completed')).toEqual(true);
+    expect(game.state('exploded')).toEqual(true);
+    //Ensure timer has stopped.
+    jest.runTimersToTime(1000);
+    expect(timer.text()).toEqual('2');
+    //Ensure timer is not restarted
+    game.find('Cell td').at(1).simulate('click');
+    jest.runTimersToTime(1000);
+    expect(timer.text()).toEqual('2');
   });
 
 });

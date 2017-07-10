@@ -119,35 +119,32 @@ export default class Game extends Component {
       //Effectively checking.pop();
       let key = checking[Symbol.iterator]().next().value;
       checking.delete(key);
-      //May have already been checked in this iteration.
-      if(!this.state.checked.has(key)) {
-        this.state.checked.add(key);
-        //Stop when we get close to a mine.
-        if(!this.state.adjacentCount.has(key)) {
-          let coord = this.getCellCoord(key);
-          checking.addAll(
-              //       x-1 x   x+1
-              // y-1   X   X   X
-              // y     X   O   X
-              // y+1   X   X   X
-              [
-                  {x: coord.x - 1, y: coord.y - 1},
-                  {x: coord.x - 1, y: coord.y},
-                  {x: coord.x - 1, y: coord.y + 1},
-                  {x: coord.x, y: coord.y - 1},
-                  {x: coord.x, y: coord.y + 1},
-                  {x: coord.x + 1, y: coord.y - 1},
-                  {x: coord.x + 1, y: coord.y},
-                  {x: coord.x + 1, y: coord.y + 1}
-              ].filter(newCoord => {
-                let newKey = getCellKey(newCoord.x, newCoord.y);
-                return this.validCoord(newCoord.x, newCoord.y) &&
-                  !this.state.mines.has(newKey) &&
-                  !this.state.checked.has(newKey) &&
-                  !this.state.marked.has(newKey);
-              }).map(newCoord => getCellKey(newCoord.x, newCoord.y))
-          );
-        }
+      this.state.checked.add(key);
+      //Stop when we get close to a mine.
+      if(!this.state.adjacentCount.has(key)) {
+        let coord = this.getCellCoord(key);
+        checking.addAll(
+            //       x-1 x   x+1
+            // y-1   X   X   X
+            // y     X   O   X
+            // y+1   X   X   X
+            [
+                {x: coord.x - 1, y: coord.y - 1},
+                {x: coord.x - 1, y: coord.y},
+                {x: coord.x - 1, y: coord.y + 1},
+                {x: coord.x, y: coord.y - 1},
+                {x: coord.x, y: coord.y + 1},
+                {x: coord.x + 1, y: coord.y - 1},
+                {x: coord.x + 1, y: coord.y},
+                {x: coord.x + 1, y: coord.y + 1}
+            ].filter(newCoord => {
+              let newKey = getCellKey(newCoord.x, newCoord.y);
+              return this.validCoord(newCoord.x, newCoord.y) &&
+                !this.state.mines.has(newKey) &&
+                !this.state.checked.has(newKey) &&
+                !this.state.marked.has(newKey);
+            }).map(newCoord => getCellKey(newCoord.x, newCoord.y))
+        );
       }
     }
   }

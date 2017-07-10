@@ -1,7 +1,10 @@
 import getCellKey from './getCellKey';
 
 export default function(numMines, width, height) {
-  let mines = new Map();
+  if(numMines > (width * height)) {
+    throw new Error(`Grid of ${width} by ${height} cannot contain ${numMines} mines`);
+  }
+  const mines = new Map();
   for (let mineNumber = 0; mineNumber < numMines; mineNumber ++) {
     let setMine = false;
     while(!setMine) {
