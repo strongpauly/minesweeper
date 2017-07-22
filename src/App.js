@@ -36,9 +36,9 @@ export default class App extends Component {
     return (
       <div className="App">
         <Game key={this.state.gameId}
-            gameId={this.state.gameId}
-            mines={this.state.mines}
-            onRestart={this.restart}></Game>
+          gameId={this.state.gameId}
+          mines={this.state.mines}
+          onRestart={this.restart}></Game>
       </div>
     );
   }

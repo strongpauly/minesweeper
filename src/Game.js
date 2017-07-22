@@ -124,26 +124,26 @@ export default class Game extends Component {
       if(!this.state.adjacentCount.has(key)) {
         let coord = this.getCellCoord(key);
         checking.addAll(
-            //       x-1 x   x+1
-            // y-1   X   X   X
-            // y     X   O   X
-            // y+1   X   X   X
-            [
-                {x: coord.x - 1, y: coord.y - 1},
-                {x: coord.x - 1, y: coord.y},
-                {x: coord.x - 1, y: coord.y + 1},
-                {x: coord.x, y: coord.y - 1},
-                {x: coord.x, y: coord.y + 1},
-                {x: coord.x + 1, y: coord.y - 1},
-                {x: coord.x + 1, y: coord.y},
-                {x: coord.x + 1, y: coord.y + 1}
-            ].filter(newCoord => {
-              let newKey = getCellKey(newCoord.x, newCoord.y);
-              return this.validCoord(newCoord.x, newCoord.y) &&
-                !this.state.mines.has(newKey) &&
-                !this.state.checked.has(newKey) &&
-                !this.state.marked.has(newKey);
-            }).map(newCoord => getCellKey(newCoord.x, newCoord.y))
+          //       x-1 x   x+1
+          // y-1   X   X   X
+          // y     X   O   X
+          // y+1   X   X   X
+          [
+            {x: coord.x - 1, y: coord.y - 1},
+            {x: coord.x - 1, y: coord.y},
+            {x: coord.x - 1, y: coord.y + 1},
+            {x: coord.x, y: coord.y - 1},
+            {x: coord.x, y: coord.y + 1},
+            {x: coord.x + 1, y: coord.y - 1},
+            {x: coord.x + 1, y: coord.y},
+            {x: coord.x + 1, y: coord.y + 1}
+          ].filter(newCoord => {
+            let newKey = getCellKey(newCoord.x, newCoord.y);
+            return this.validCoord(newCoord.x, newCoord.y) &&
+              !this.state.mines.has(newKey) &&
+              !this.state.checked.has(newKey) &&
+              !this.state.marked.has(newKey);
+          }).map(newCoord => getCellKey(newCoord.x, newCoord.y))
         );
       }
     }
@@ -165,26 +165,26 @@ export default class Game extends Component {
       let row = widthArray.map((emptyX, x) => {
         let key = getCellKey(x, y);
         return <Cell key={key} x={x} y={y}
-            mine={this.state.exploded && this.state.mines.has(key)}
-            checked={this.state.checked.has(key)}
-            marked={this.state.marked.has(key)}
-            adjacentCount={this.state.adjacentCount.get(key)}
-            onCheck={this.onCheck}
-            onMark={this.onMark}></Cell>;
+          mine={this.state.exploded && this.state.mines.has(key)}
+          checked={this.state.checked.has(key)}
+          marked={this.state.marked.has(key)}
+          adjacentCount={this.state.adjacentCount.get(key)}
+          onCheck={this.onCheck}
+          onMark={this.onMark}></Cell>;
       });
       return <tr className="row" key={'row' + y}>{row}</tr>;
     });
     return <div className="gridContainer">
-            <div>
-                <div className="header">
-                    <div className="numMines">{this.props.mines.mines.size - this.state.marked.size}</div>
-                    <div className="status" onClick={this.restart}>{this.state.exploded ? String.fromCharCode(9760) : this.state.completed ? '✔' : String.fromCharCode(9822)}</div>
-                    <div className="timer">{this.state.time || ' '}</div>
-                </div>
-                <table className={this.state.completed ? 'grid completed' : 'grid'}>
-                    <tbody>{cells}</tbody>
-                </table>
-            </div>
-        </div>;
+      <div>
+        <div className="header">
+          <div className="numMines">{this.props.mines.mines.size - this.state.marked.size}</div>
+          <div className="status" onClick={this.restart}>{this.state.exploded ? String.fromCharCode(9760) : this.state.completed ? '✔' : String.fromCharCode(9822)}</div>
+          <div className="timer">{this.state.time || ' '}</div>
+        </div>
+        <table className={this.state.completed ? 'grid completed' : 'grid'}>
+          <tbody>{cells}</tbody>
+        </table>
+      </div>
+    </div>;
   }
 }
