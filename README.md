@@ -11,4 +11,6 @@ npm install
 npm start
 ```
 
-Working example can be found at [http://paul.potsides.com/minesweeper]
+Working example can be found at http://paul.potsides.com/minesweeper
+
+[![Build Status](https://travis-ci.org/strongpauly/minesweeper.svg?branch=master)](https://travis-ci.org/strongpauly/minesweeper)
