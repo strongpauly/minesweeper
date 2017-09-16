@@ -22,7 +22,7 @@ export default class Cell extends Component {
   }
 
   checkCell() {
-      //Can't check more than once - don't allow checking before removing mark.
+    //Can't check more than once - don't allow checking before removing mark.
     if (!this.props.checked && !this.props.marked) {
       this.props.onCheck(this.props.x, this.props.y);
     }
