@@ -17,4 +17,5 @@ deploy:
   region: eu-west-2
   skip_cleanup: true
   local_dir: build
+  upload-dir: minesweeper
   acl: public_read
