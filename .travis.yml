@@ -1,5 +1,20 @@
 language: node_js
 node_js:
-  - "6"
+  - "10"
+install:
+  - npm install
+before_script:
+  - npm run coveralls
 script:
-  - 'npm run coveralls'
+  - npm run build
+deploy:
+  provider: s3
+  access_key_id:
+    secure: vMdYO/brQ4bqP75TaziJ8SSCsr/zhb0ter61g5knVEtIWM/XZs/4paVT6golqMe1cUhIPYoNNw5Kh45LFL2kJYGSCAM8Z12o0/yqyNQb0OT649bxbgn/qntMLeuNKcJtO+VEZ7rQx0n+DM4NC7dQd6O8AojCA+XF/tPYSXumqOSzdu5qB3aZaZ6ifWO1ejEh1AXZwLlUkZ6Vw1SslkVJftgttdJ1DA45szuIy6HZd7JwTdavbhGuNmqF80kmZXU7JEummrsBS5t1XsPYtmwc7w5MrMn9pgn8zoHll6k6OLblxV+PEkynZwmsW+sVcSSf+dKyfS6W4UlWTf5uW1CHfO5JUXb2go5wr7Vfom5bGLgCOyjuSa6++3u8e/42yuD0aZvLm8PRAQF4kr9HcQ+TJlxJ98wneAhSFItqtnICpOmlTcZiDy/Zr7bQhqbxzJcGmoo5YkCz2fSREtk0OaqoPS3c7GKaUxVbyecCQoVhRs6VuKVSZaj1oDI4BxXrqpwk6bah1aHhwjTzblIuZow7WvAovXV7+OJeB1js2RJ0S6UbwZ9TClC2nLwwRECzAc2YlcAyUsQroBPHraEltwdITakggYhGokGyyIhmrwvGUtC1rbGGMiKQTe0GyDhyiupSSeCFwAdwbHbSiDIsAdSkQxZFtT6DUyquH0GUccAnxrw=
+  secret_access_key:
+    secure: GmI7D4Rr3ovQzT6ym77CAG3VaWmgv1onWIes7LSfnS0Sz9KfGaRr5x3OSEKewCT3P320G0SoJqB92fKa8juvVfnUKmXSpamQUZ+JcvFUxn25/rnmw94lY4vyDTY8Dz1QWFkDkhuDSeAKQkUEE7y6W9+C7FLs6JNRGXCkBvq9ndp358OyeohcOXys06AH9itqQbOBnawGOAiq2npIpWEjozFJ+eewyPDIvAQvushvXpUo/QUFgmnX5UdtIEgxyLXV4eiDkCFX4t7HDhsjQSClbOxfdm1KjGOeF0mk5U3yR9i1jAFJw6ogtMAyK3WlEsso68eJY5OFcAXVXVQDGK3avyr+txe8XSIYh8YC3sGM0PodAdk0KM75XvWurd62qu4CsmSzVNCO6uwDqmeIO8K98HqVmQVFO1VSvmC+mVi7g6nY0YWd0cDFW/rATzAHF8NBILvWtz1OBJBTfaaD4vGAy6qwacupIcMb184qCc6BMOZj/gyUbrrJroTUCSGz/gbQ/L6IS6j+Tq1Hq/iOeNvkyZsZWzqh1aMEKrZqC3ahZc8G/Ek/3UpdGpD5SuXQJOT92KZZm+fKN2uxBqX2vwsxy0NsE3Il3+zlrXkgjXAPnj+lhseV1q/T1RgM4AxYrHEfJQtX7QLtiNcLB3NQbbFo7P6MQxP23XHSj1Ia9hX4xUk=
+  bucket: minesweeper.potsides.com
+  region: eu-west-2
+  skip_cleanup: true
+  local_dir: build
+  acl: public_read
